@@ -14,6 +14,10 @@ import com.example.artspace.ui.theme.ArtSpaceTheme
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableIntStateOf
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,26 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArtSpaceScreen() {
+    var currentArtwork by remember {
+        mutableIntStateOf(0)
+    }
+    val artworkImages = listOf(
+        R.drawable.starry_night,
+        R.drawable.great_wave,
+        R.drawable.pearl_earring
+    )
+
+    val artworkTitles = listOf(
+        "Starry Night",
+        "The Great Wave",
+        "Girl with a Pearl Earring"
+    )
+
+    val artworkArtists = listOf(
+        "Vincent van Gogh (1889)",
+        "Katsushika Hokusai (1831)",
+        "Johannes Vermeer (1665)"
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,8 +63,10 @@ fun ArtSpaceScreen() {
         // Artwork
         // Artwork
         Image(
-            painter = painterResource(id = R.drawable.starry_night),
-            contentDescription = "Starry Night painting",
+            painter = painterResource(
+                id = artworkImages[currentArtwork]
+            ),
+            contentDescription = artworkTitles[currentArtwork],
             modifier = Modifier
                 .fillMaxWidth()
                 .height(350.dp),
@@ -52,12 +78,12 @@ fun ArtSpaceScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Starry Night",
+                text = artworkTitles[currentArtwork],
                 style = MaterialTheme.typography.headlineMedium
             )
 
             Text(
-                text = "Vincent van Gogh (1889)",
+                text = artworkArtists[currentArtwork],
                 style = MaterialTheme.typography.bodyLarge
             )
         }
@@ -67,11 +93,29 @@ fun ArtSpaceScreen() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = {}) {
+            Button(
+                onClick = {
+                    currentArtwork =
+                        if (currentArtwork > 0) {
+                            currentArtwork - 1
+                        } else {
+                            artworkImages.lastIndex
+                        }
+                }
+            ) {
                 Text("Previous")
             }
 
-            Button(onClick = {}) {
+            Button(
+                onClick = {
+                    currentArtwork =
+                        if (currentArtwork < artworkImages.lastIndex) {
+                            currentArtwork + 1
+                        } else {
+                            0
+                        }
+                }
+            ) {
                 Text("Next")
             }
         }
