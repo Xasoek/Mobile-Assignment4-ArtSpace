@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.artspace.ui.theme.ArtSpaceTheme
-
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +37,14 @@ fun ArtSpaceScreen() {
     ) {
 
         // Artwork
-        Text(
-            text = "🖼️ Artwork",
-            style = MaterialTheme.typography.headlineLarge
+        // Artwork
+        Image(
+            painter = painterResource(id = R.drawable.starry_night),
+            contentDescription = "Starry Night painting",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(350.dp),
+            contentScale = ContentScale.Fit
         )
 
         // Artwork information
